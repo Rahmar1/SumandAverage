@@ -1,102 +1,128 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sum</title>
+    <title>آلة حساب المتوسط</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             text-align: center;
-            margin: 50px;
-            background-color: aliceblue;
-        }
-        input {
-            width: 300px;
-            padding: 10px;
-            margin: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            cursor: pointer;
-            margin: 5px;
-        }
-        .result {
-            font-size: 20px;
-            margin-top: 20px;
-        }
-        h2 {
-            font-size: 22px;
-            padding:10px 0px ;
-            color: white;
-        }
-        .contiainer{
-            text-align: center;
-            justify-self: center;
-            width: auto;
-            background: linear-gradient(45deg, #5ffffc, #b969e4);
-            padding: 15px;
-            padding-top: 20px;
-            border-radius: 10px;
-            height: 300px;
-            box-shadow: rgba(0, 0, 0, 0.614) 1px 1px 20px 1px;
-        }
-        button{
-            font-size: 17px;
-            border-radius: 15px;
-            border:none;
-            background: linear-gradient(to bottom,#deb9f1, #95e4e2 );
-           margin-top: 40px;
-        }
-        input{
-            margin-top: 20px;
-            border-radius: 15px;
-            border: 1px solid rgb(119, 117, 117);
-            background: linear-gradient(45deg,#deb9f1, #95e4e2 );
-            text-align: center;
+            padding: 20px;
             
         }
-        input::placeholder{
-            color: rgb(102, 99, 99);
+        .number-pad button {
+            margin: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            
         }
-        input:focus{
+        input {
+            margin: 10px;
+           padding: 7px 25px;
+            width: 60px;
+            border-radius: 40px;
             outline: none;
+            border: 1px rgb(163, 163, 250) solid;
+        }
+
+        button {
+            margin: 10px;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 40px;
+            outline: none;
+            background-color: rgb(163, 163, 250);
+            border: 1px ;
+        }
+        #gradesDisplay, #result {
+            margin-top: 20px;
+            font-size: 18px;
         }
     </style>
 </head>
 <body>
-    <div class="contiainer">
-    <h2>حساب المتوسط والمجموع</h2>
-    <input type="text" id="numbers" placeholder="أدخل الأرقام مفصولة بمسافة" />
-    <br>
-    <button onclick="calculateSum()">احسب المجموع</button>
-    <button onclick="calculateAverage()">احسب المتوسط</button>
-    <div class="result" id="result"></div>
+    <h1 style="color: rgb(163, 163, 250);">Sum And Avarige</h1>
+    <input type="text" id="selectedGrade" readonly placeholder="الدرجة المختارة">
+    <div class="number-pad">
+        <button onclick="selectNumber(1)">1</button>
+        <button onclick="selectNumber(2)">2</button>
+        <button onclick="selectNumber(3)">3</button>
+        <br>
+        <button onclick="selectNumber(4)">4</button>
+        <button onclick="selectNumber(5)">5</button>
+        <button onclick="selectNumber(6)">6</button>
+        <br>
+        <button onclick="selectNumber(7)">7</button>
+        <button onclick="selectNumber(8)">8</button>
+        <button onclick="selectNumber(9)">9</button>
+        <br>
+        <button onclick="addDecimal()">.</button>
     </div>
+    <br>
+    <input type="text" id="grade1" placeholder="الدرجة 1">
+    <input type="text" id="grade2" placeholder="الدرجة 2">
+    <input type="text" id="grade3" placeholder="الدرجة 3">
+    <input type="text" id="grade4" placeholder="الدرجة 4">
+    <br>
+    <button onclick="assignGrade()">أضف الدرجة</button>
+    <button onclick="calculateAverage()">احسب المتوسط</button>
+    <button onclick="clearGrades()">امسح الدرجات</button>
+    <div id="gradesDisplay"></div>
+    <div id="result"></div>
+
     <script>
-        function getNumbers() {
-            let input = document.getElementById('numbers').value;
-            return input.split(' ').map(num => parseFloat(num.trim())).filter(num => !isNaN(num));
+        let selectedNumber = "";
+
+        function selectNumber(number) {
+            selectedNumber += number; // إضافة الرقم المختار إلى النص الحالي
+            document.getElementById('selectedGrade').value = selectedNumber;
         }
-        
-        function calculateSum() {
-            let numbers = getNumbers();
-            if (numbers.length === 0) {
-                document.getElementById('result').innerHTML = "الرجاء إدخال أرقام صحيحة";
-                return;
+
+        function addDecimal() {
+            if (!selectedNumber.includes('.')) { // إضافة النقطة فقط إذا لم تكن موجودة
+                selectedNumber += ".";
+                document.getElementById('selectedGrade').value = selectedNumber;
             }
-            let sum = numbers.reduce((a, b) => a + b, 0);
-            document.getElementById('result').innerHTML = `<p>المجموع: ${sum}</p>`;
         }
-        
+
+        function assignGrade() {
+            if (selectedNumber !== "") {
+                for (let i = 1; i <= 4; i++) {
+                    const input = document.getElementById(`grade${i}`);
+                    if (!input.value) {
+                        input.value = selectedNumber;
+                        selectedNumber = ""; // إعادة تعيين الرقم المختار بعد إدخاله
+                        document.getElementById('selectedGrade').value = "";
+                        break;
+                    }
+                }
+            }
+        }
+
         function calculateAverage() {
-            let numbers = getNumbers();
-            if (numbers.length === 0) {
-                document.getElementById('result').innerHTML = "الرجاء إدخال أرقام صحيحة";
-                return;
+            const grade1 = parseFloat(document.getElementById('grade1').value) || 0;
+            const grade2 = parseFloat(document.getElementById('grade2').value) || 0;
+            const grade3 = parseFloat(document.getElementById('grade3').value) || 0;
+            const grade4 = parseFloat(document.getElementById('grade4').value) || 0;
+
+            const average = (grade1 + grade2 + grade3 + grade4) / 4;
+
+            document.getElementById('gradesDisplay').textContent =
+                `الدرجات المدخلة: ${grade1}, ${grade2}, ${grade3}, ${grade4}`;
+
+            document.getElementById('result').textContent = `المتوسط: ${average.toFixed(2)}`;
+        }
+
+        function clearGrades() {
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`grade${i}`).value = '';
             }
-            let average = numbers.reduce((a, b) => a + b, 0) / numbers.length;
-            document.getElementById('result').innerHTML = `<p>المتوسط: ${average.toFixed(2)}</p>`;
+            selectedNumber = "";
+            document.getElementById('selectedGrade').value = '';
+            document.getElementById('gradesDisplay').textContent = '';
+            document.getElementById('result').textContent = '';
         }
     </script>
 </body>
