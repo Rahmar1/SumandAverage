@@ -58,6 +58,7 @@
         <button onclick="selectNumber(8)">8</button>
         <button onclick="selectNumber(9)">9</button>
         <br>
+        <button onclick="selectNumber(0)">0</button>
         <button onclick="addDecimal()">.</button>
     </div>
     <br>
@@ -68,7 +69,9 @@
     <br>
     <button onclick="assignGrade()">أضف الدرجة</button>
     <button onclick="calculateAverage()">احسب المتوسط</button>
+    <button onclick="calculateSum()">احسب المجموع</button>
     <button onclick="clearGrades()">امسح الدرجات</button>
+
     <div id="gradesDisplay"></div>
     <div id="result"></div>
 
@@ -100,7 +103,22 @@
                 }
             }
         }
+        function calculateSum() {
+            const grade1 = parseFloat(document.getElementById('grade1').value) || 0;
+            const grade2 = parseFloat(document.getElementById('grade2').value) || 0;
+            const grade3 = parseFloat(document.getElementById('grade3').value) || 0;
+            const grade4 = parseFloat(document.getElementById('grade4').value) || 0;
 
+            const result = (grade1 + grade2 + grade3 + grade4) ;
+            if (result.length === 0) {
+                document.getElementById('result').innerHTML = "الرجاء إدخال أرقام صحيحة";
+                return;
+            }
+            document.getElementById('gradesDisplay').textContent =
+                `الدرجات المدخلة: ${grade1}, ${grade2}, ${grade3}, ${grade4}`;
+
+            document.getElementById('result').textContent = `المجموع: ${result.toFixed(2)}`
+        }
         function calculateAverage() {
             const grade1 = parseFloat(document.getElementById('grade1').value) || 0;
             const grade2 = parseFloat(document.getElementById('grade2').value) || 0;
